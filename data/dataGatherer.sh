@@ -20,10 +20,9 @@ NUMBER = 0
 
 read_config $CONF_FILE
 
-../webinterface/data/data.json < "{"
+cat << EOF > ../webinterface/data/data.json
+{
 
-../webinterface/data/data.json <<EOF
-    
 }
 EOF
 

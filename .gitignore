@@ -1,0 +1,6 @@
+webinterface/node_modules/
+webinterface/dist/
+webinterface/.parcel-cache/
+node_modules/
+dist/
+.parcel-cache/

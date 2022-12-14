@@ -1,14 +1,42 @@
 
 import mysql.connector
 
-class accesToDataBase:
+host = "192.168.5.149"
+user = "root"
+password = "root"
+port = "3306"
 
-    def __init__(self, dbPath):
-        self.dbPath = dbPath
-        self.conn = None
-        self.c = None
 
-    def connect(self):
-        self.conn = mysql.connect(self.dbPath)
-        self.c = self.conn.cursor()
+def connectToDataBase(_host = host, _user = user, _password = password, _port = port):
+    mydb = mysql.connector.connect(
+        host = _host,
+        user = _user,
+        password = _password,
+        port = _port
+    )
+    return mydb
+    
+
+def checkIfConnectionIsOk(_mydbToCheck):
+    _mydbToCheck = connectToDataBase()
+    return _mydbToCheck.is_connected()
+
+def checkPort(_host = host, _port = port):
+    import socket
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        s.connect((_host, int(_port)))
+        s.shutdown(2)
+        return True
+    except:
+        return False
+
+
+if checkPort():
+    Db=connectToDataBase()
+    if checkIfConnectionIsOk(Db):
+        print(1)
+        exit()
+
+print(0)
 

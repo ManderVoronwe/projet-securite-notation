@@ -1,10 +1,14 @@
 #!/bin/bash
 
 # get launch parameters
-$server = $args[0]
+SERVER=$1
+CERTIFICATE=$2
+PROCESSUS=(lighttpd bck php8)
+number = 0
+for i in $processus
+do
+    number=$number + $(ssh -i $CERTIFICATE root@$SERVER "ps -aux" | grep $i | wc -l)
+done
 
-# get all processus from a distant server
-$processus = Get-WmiObject -ComputerName $server -Class Win32_Process
+echo $number
 
-#save processus in a file
-$processus | Out-File -FilePath ".\processus.txt"

@@ -33,7 +33,8 @@ do
     #replace the last line of the file
     sed -i '$ d' ../webinterface/data/data.json
     #add the new data
-    DATA = "releve: {
+    DATA = ",
+        \"releve$NUMBER\": {
         \"rnumber\": $NUMBER,
         \"processus\": $DATA_PROCESSUS,
         \"advertising\": $DATA_ADVERTISING

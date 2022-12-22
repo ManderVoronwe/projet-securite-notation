@@ -1,0 +1,17 @@
+{
+    "releve1": {
+        "rnumber": 1 ,
+        "processus": 4 ,
+        "advertising": 10
+    },
+    "releve2": {
+        "rnumber": 2 ,
+        "processus": 4 ,
+        "advertising": 10
+    },
+    "releve3": {
+        "rnumber": 3 ,
+        "processus": 4 ,
+        "advertising": 10
+    }
+}

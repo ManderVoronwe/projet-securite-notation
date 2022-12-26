@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
   <meta charset="UTF-8">
@@ -8,94 +8,157 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
 </head>
 
 <body>
-  <div>
-    <canvas id="point-diagram"></canvas>
+  <script src="data/data.js"></script>
+  <div class="row text-center" style="max-width: 100%;">
+    <div class="col" style="padding: 0">
+      <h1>notation du defi MAKI.FR</h1>
+    </div>
+  </div>
+  <div class="container" style="background-color: #c8c7c7; min-width: 100%; padding-top: 10px ; padding-bottom: 10px; ">
+    <div class="row text-center">
+      <div class="col">
+        <h2>Evolution des points</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <canvas id="point-diagram" style="max-height: 80vh; min-height: 400px;"></canvas>
+      </div>
+    </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <div class="row" style="max-width: 100%; padding-top: 10px ; padding-bottom: 10px; ">
+    <div class="row">
+      <div class="col">
+        <h2>Ellement de notation actif</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card" style="width: 18rem; margin: 10px;">
+        <div class="card-body" id="processus">
+          <h5 class="card-title" id="processustitle"></h5>
+          <p class="card-text" id="processustexte"> </p>
+          <script>
+            function getProcessus() {
+              let cardTitle = document.getElementById("processustitle");
+              let cardText = document.getElementById("processustexte");
+              if (data.releve[data.releve.length - 1].processus > 0) {
+                cardTitle.innerHTML = data.releve[data.releve.length - 1].processus == 1 ? "Un processus malvaillant est toujours actif" : "plusieur processus malvaillant sont toujours actif";
+                cardText.innerHTML = "Au moins un prossecus remet en cause la securité de votre systeme";
 
-  <script src="data/data.js"></script>
-  <script>
+                cardTitle.style.color = "red";
+              } else {
 
-
-    let DataTab = [];
-    let label = []
-    for (let i = 0; i < data.releve.length; i++) {
-      let temp = data.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
-      DataTab.push({ x: data.releve[i].rnumber, y: temp });
-      label.push(data.releve[i].rnumber);
-    }
-
-    let ctx = document.getElementById('point-diagram').getContext('2d');
-    let chart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        datasets: [{
-          label: 'Point',
-          backgroundColor: 'rgb(255, 99, 132)',
-          fill: false,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1,
-          data: DataTab,
-        }],
-        labels: label
-      },
-      options: {
-        responsive: true,
-      }
-    });
-
-    console.log(DataTab);
-
-
-    helpers.addEvent(window, "resize", (function () {
-      // Basic debounce of resize function so it doesn't hurt performance when resizing browser.
-      let timeout;
-      return function () {
-        clearTimeout(timeout);
-        timeout = setTimeout(function () {
-          each(Chart.instances, function (instance) {
-            // If the responsive flag is set in the chart instance config
-            // Cascade the resize event down to the chart.
-            if (instance.options.responsive) {
-              instance.resize(instance.render, true);
+                cardTitle.innerHTML = "bravo plus de processus malvaillant";
+                cardText.innerHTML += "aucun processus malvaillant n'est inactif vous avez reussi a dejouer cette attaque";
+                cardTitle.style.color = "green";
+              }
             }
-          });
-        }, 50);
-      };
-    })());
+            getProcessus();
+          </script>
+        </div>
 
-    //fetch data from server
-    function getData() {
-      $.ajax({
-        url: "http://localhost:1234/data/data.js",
-        type: "GET",
-        success: function (data) {
-          console.log(data);
+      </div>
+      <div class="card" style="width: 18rem; margin: 10px;">
+        <div class="card-body" id="advertising">
+          <h5 class="card-title" id="advertisingtitle"></h5>
+          <p class="card-text" id="advertisingtexte"> </p>
+          <script>
+            function getAdvertising() {
+              let cardTitle = document.getElementById("advertisingtitle");
+              let cardText = document.getElementById("advertisingtexte");
+              if (data.releve[data.releve.length - 1].advertising < 10) {
+                cardTitle.innerHTML = "erreur avec Maki.fr";
+                cardText.innerHTML = data.releve[data.releve.length - 1].advertising == 5 ? "Maki.fr ne génère aucun revenu" : "Maki.fr n'est pas accessible";
+                cardTitle.style.color = "red";
+              } else {
+                cardTitle.innerHTML = "Maki.fr est accessible";
+                cardText.innerHTML = "Maki.fr est accessible et génère des revenus";
+                cardTitle.style.color = "green";
+              }
+            }
+            getAdvertising();
+          </script>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <script>
+
+
+      let DataTab = [];
+      let label = []
+      for (let i = 0; i < data.releve.length; i++) {
+        let temp = data.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
+        DataTab.push({ x: data.releve[i].rnumber, y: temp });
+        label.push(data.releve[i].rnumber);
+      }
+
+      let ctx = document.getElementById('point-diagram').getContext('2d');
+      let chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          datasets: [{
+            label: 'Point',
+            backgroundColor: 'rgb(255, 99, 132)',
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1,
+            data: DataTab,
+          }],
+          labels: label
         },
-        error: function (error) {
-          console.log(error);
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
         }
       });
-      if(data.releve.length > DataTab.length){
-        for(let i = DataTab.length; i < data.releve.length; i++){
-          let temp = data.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
-          DataTab.push({ x: data.releve[i].rnumber, y: temp });
-          label.push(data.releve[i].rnumber);
+
+      console.log(DataTab);
+
+      //fetch data from server
+      function getData() {
+        $.ajax({
+          url: "http://localhost:1234/data/data.js",
+          type: "GET",
+          success: function (data) {
+            console.log(data);
+          },
+          error: function (error) {
+            console.log(error);
+          }
+        });
+        if (data.releve.length > DataTab.length) {
+          for (let i = DataTab.length; i < data.releve.length; i++) {
+            let temp = data.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
+            DataTab.push({ x: data.releve[i].rnumber, y: temp });
+            label.push(data.releve[i].rnumber);
+          }
+          chart.update();
+          getProcessus();
+          getAdvertising();
         }
-        chart.update();
       }
-    }
 
-    setInterval(getData, 1000);
+      setInterval(getData, 1000);
 
-  </script>
+    </script>
 
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"></script>
 
 </body>
 

@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 
 </head>
 
@@ -16,7 +18,84 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <script src ="front.js"></script>
+  <script src="data/data.js"></script>
+  <script>
+
+
+    let DataTab = [];
+    let label = []
+    for (let i = 0; i < data.releve.length; i++) {
+      let temp = data.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
+      DataTab.push({ x: data.releve[i].rnumber, y: temp });
+      label.push(data.releve[i].rnumber);
+    }
+
+    let ctx = document.getElementById('point-diagram').getContext('2d');
+    let chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        datasets: [{
+          label: 'Point',
+          backgroundColor: 'rgb(255, 99, 132)',
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1,
+          data: DataTab,
+        }],
+        labels: label
+      },
+      options: {
+        responsive: true,
+      }
+    });
+
+    console.log(DataTab);
+
+
+    helpers.addEvent(window, "resize", (function () {
+      // Basic debounce of resize function so it doesn't hurt performance when resizing browser.
+      let timeout;
+      return function () {
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+          each(Chart.instances, function (instance) {
+            // If the responsive flag is set in the chart instance config
+            // Cascade the resize event down to the chart.
+            if (instance.options.responsive) {
+              instance.resize(instance.render, true);
+            }
+          });
+        }, 50);
+      };
+    })());
+
+    //fetch data from server
+    function getData() {
+      $.ajax({
+        url: "http://localhost:1234/data/data.js",
+        type: "GET",
+        success: function (data) {
+          console.log(data);
+        },
+        error: function (error) {
+          console.log(error);
+        }
+      });
+      if(data.releve.length > DataTab.length){
+        for(let i = DataTab.length; i < data.releve.length; i++){
+          let temp = data.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
+          DataTab.push({ x: data.releve[i].rnumber, y: temp });
+          label.push(data.releve[i].rnumber);
+        }
+        chart.update();
+      }
+    }
+
+    setInterval(getData, 1000);
+
+  </script>
+
+
 
 </body>
 

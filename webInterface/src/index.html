@@ -1,29 +1,208 @@
-<div>
-  <canvas id="myChart"></canvas>
-</div>
+<!DOCTYPE html>
+<html lang="fr">
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
-<script>
-  const ctx = document.getElementById('myChart');
 
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
+</head>
+
+<body>
+  <script src="data/data.js"></script>
+  <div class="row text-center" style="max-width: 100%;">
+    <div class="col" style="padding: 0">
+      <h1>notation du defi MAKI.FR</h1>
+    </div>
+  </div>
+  <div class="container" style="background-color: #c8c7c7; min-width: 100%; padding-top: 10px ; padding-bottom: 10px; ">
+    <div class="row text-center">
+      <div class="col">
+        <h2>Evolution des points</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <canvas id="point-diagram" style="max-height: 80vh; min-height: 400px;"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="max-width: 100%; padding-top: 10px ; padding-bottom: 10px; ">
+    <div class="row">
+      <div class="col">
+        <h2>Ellement de notation actif</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card" style="width: 18rem; margin: 10px;">
+        <h5 class="card-header">
+          Vous avez dit deamon ? 😈
+        </h5>
+        <div class="card-body" id="processus">
+          <h5 class="card-title" id="processustitle"></h5>
+          <p class="card-text" id="processustexte"> </p>
+          <p class="card-text" id="processuspoint"> </p>
+          <script>
+            function getProcessus() {
+              let cardTitle = document.getElementById("processustitle");
+              let cardText = document.getElementById("processustexte");
+              let cardPoint = document.getElementById("processuspoint");
+              if (data.releve[data.releve.length - 1].processus > 0) {
+                cardTitle.innerHTML = data.releve[data.releve.length - 1].processus == 1 ? "Un processus malvaillant est toujours actif 😨" : "plusieur processus malvaillant sont toujours actif 😱";
+                cardText.innerHTML = "Au moins un prossecus remet en cause la securité de votre systeme ";
+                cardPoint.innerHTML = "vous perdez " + data.releve[data.releve.length - 1].processus * 40 + " points par minute";
+
+                cardTitle.style.color = "red";
+              } else {
+
+                cardTitle.innerHTML = "bravo plus de processus malvaillant ✅";
+                cardText.innerHTML += "aucun processus malvaillant n'est inactif vous avez reussi a dejouer cette attaque";
+                cardPoint.innerHTML = "vous ne perdez pas de point";
+                cardTitle.style.color = "green";
+              }
+            }
+            getProcessus();
+          </script>
+        </div>
+
+      </div>
+      <div class="card" style="width: 18rem; margin: 10px;background-color: transparent;">
+        <h5 class="card-header" id="advertisingtitle">
+          Vous avez dit site web ? 🌐
+        </h5>
+        <div class="card-body" id="advertising">
+          <span class="money" >💸</span><span class="money" >💸</span><span class="money" >💸</span><span class="money" >💸</span><span class="money" >💸</span><span class="money" >💸</span><span class="money" >💸</span>
+          <h5 class="card-title" id="advertisingtitle" style=" z-index: 10;"> </h5>
+          <p class="card-text" id="advertisingtexte" style="z-index: 10;"> </p>
+          <p class="card-text" id="advertisingpoint" style="z-index: 10;"> </p>
+          <script>
+            function getAdvertising() {
+              let cardTitle = document.getElementById("advertisingtitle");
+              let cardText = document.getElementById("advertisingtexte");
+              let cardPoint = document.getElementById("advertisingpoint");
+              if (data.releve[data.releve.length - 1].advertising < 10) {
+                cardTitle.innerHTML = "erreur avec Maki.fr";
+                cardText.innerHTML = data.releve[data.releve.length - 1].advertising == 5 ? "Maki.fr ne génère aucun revenu" : "Maki.fr n'est pas accessible";
+                cardTitle.style.color = "red";
+              } else {
+                cardTitle.innerHTML = "Maki.fr est accessible 🍣";
+                cardText.innerHTML = "Maki.fr est accessible et génère des revenus 🤑";
+                cardTitle.style.color = "green";
+              }
+              cardPoint.innerHTML = data.releve[data.releve.length - 1].advertising == 0 ? "votre site est hors ligne vous ne gagnez pas de point" : "vous gagnez " + data.releve[data.releve.length - 1].advertising + " points par minute";
+            }
+
+            getAdvertising();
+
+            function fallingMoney(){
+              if (data.releve[data.releve.length - 1].advertising <10) {
+                //make money disappear
+                let money = document.getElementsByClassName("money");
+                for (let i = 0; i < money.length; i++) {
+                  money[i].style.display = "none";
+                }
+                return;
+              }
+              let money = document.getElementsByClassName("money");
+              let height = document.getElementById("advertising").offsetHeight;
+              let width = document.getElementById("advertising").offsetWidth;
+              let decalage = money[0].offsetHeight;
+              for (let i = 0; i < money.length; i++) {
+                money[i].style.display = "inline";
+                let x = Math.floor(Math.random() * width);
+                let y = Math.floor(Math.random() * height);
+                money[i].style.position = "absolute";
+                money[i].style.left = x + "px";
+                money[i].style.top = y +decalage+ "px";
+                money[i].style.zIndex = -1;
+
+              }
+            }
+            setInterval(fallingMoney, 200);
+
+          </script>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <script>
+
+
+      let DataTab = [];
+      let label = []
+      for (let i = 0; i < data.releve.length; i++) {
+        let temp = data.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
+        DataTab.push({ x: data.releve[i].rnumber, y: temp });
+        label.push(data.releve[i].rnumber);
+      }
+
+      let ctx = document.getElementById('point-diagram').getContext('2d');
+      let chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          datasets: [{
+            label: 'Point',
+            backgroundColor: 'rgb(255, 99, 132)',
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1,
+            data: DataTab,
+          }],
+          labels: label
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        }
+      });
+
+      console.log(DataTab);
+
+      //fetch data from server
+      function getData() {
+        $.ajax({
+          url: "http://localhost:1234/data/data.js",
+          type: "GET",
+          success: function (data) {
+            console.log(data);
+          },
+          error: function (error) {
+            console.log(error);
+          }
+        });
+        if (data.releve.length > DataTab.length) {
+          for (let i = DataTab.length; i < data.releve.length; i++) {
+            let temp = data.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
+            DataTab.push({ x: data.releve[i].rnumber, y: temp });
+            label.push(data.releve[i].rnumber);
+          }
+          chart.update();
+          getProcessus();
+          getAdvertising();
         }
       }
-    }
-  });
-</script>
- 
+
+      setInterval(getData, 200);
+
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"></script>
+
+</body>
+
+</html>

@@ -20,10 +20,10 @@ NUMBER = 0
 
 read_config $CONF_FILE
 
-cat << EOF > ../webinterface/data/data.json
-{
+cat << EOF > ../webinterface/src/data/data.js
+const data = {releve:[
 
-}
+]};
 EOF
 
 for i in {1..120}
@@ -31,16 +31,19 @@ do
     DATA_PROCESSUS=$(../checkProcessus/ProcessusGeter.sh $SERVER $CERTIFICATE $PROCESSUS)
     DATA_ADVERTISING=$(../Advertising/checkAdvertisment.sh $URL)
     #replace the last line of the file
-    sed -i '$ d' ../webinterface/data/data.json
+    sed -i '$ d' ../webinterface/data/data.js
     #add the new data
-    DATA = "releve: {
+    POINT = $DATA_PROCESSUS + $DATA_ADVERTISING
+    DATA = ",
+        {
         \"rnumber\": $NUMBER,
         \"processus\": $DATA_PROCESSUS,
-        \"advertising\": $DATA_ADVERTISING
+        \"advertising\": $DATA_ADVERTISING,
+        \"point\": $POINT
         }
-    }"
+    ]};"
     
-    echo "    \"processus\": $DATA_PROCESSUS," >> ../webinterface/data/data.json
+    echo "    \"processus\": $DATA_PROCESSUS," >> ../webinterface/src/data/data.js
     NUMBER = $NUMBER + 1
     sleep 60
 done

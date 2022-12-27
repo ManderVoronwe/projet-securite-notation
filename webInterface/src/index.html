@@ -15,7 +15,67 @@
 </head>
 
 <body>
-  <script src="data/data.js"></script>
+  <script>
+
+
+    let DataTab = [];
+    let label = []
+    for (let i = 0; i < data.releve.length; i++) {
+      let temp = data.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
+      DataTab.push({ x: data.releve[i].rnumber, y: temp });
+      label.push(data.releve[i].rnumber);
+    }
+
+    let ctx = document.getElementById('point-diagram').getContext('2d');
+    let chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        datasets: [{
+          label: 'Point',
+          backgroundColor: 'rgb(255, 99, 132)',
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1,
+          data: DataTab,
+        }],
+        labels: label
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+
+    console.log(DataTab);
+
+    //fetch data from server
+    function getData() {
+      $.ajax({
+        url: "http://localhost:1234/data/data.js",
+        type: "GET",
+        success: function (data) {
+          console.log(data);
+        },
+        error: function (error) {
+          console.log(error);
+        }
+      });
+      DataTab = [];
+      label = [];
+      for (let i = 0; i < data.releve.length; i++) {
+        let temp = data.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
+        DataTab.push({ x: data.releve[i].rnumber, y: temp });
+        label.push(data.releve[i].rnumber);
+      }
+      chart.update();
+      getProcessus();
+      getAdvertising();
+    }
+    
+
+    setInterval(getData, 200);
+
+  </script>
   <div class="row text-center" style="max-width: 100%;">
     <div class="col" style="padding: 0">
       <h1>notation du defi MAKI.FR</h1>
@@ -78,7 +138,9 @@
           Vous avez dit site web ? 🌐
         </h5>
         <div class="card-body" id="advertising">
-          <span class="money" >💸</span><span class="money" >💸</span><span class="money" >💸</span><span class="money" >💸</span><span class="money" >💸</span><span class="money" >💸</span><span class="money" >💸</span>
+          <span class="money">💸</span><span class="money">💸</span><span class="money">💸</span><span
+            class="money">💸</span><span class="money">💸</span><span class="money">💸</span><span
+            class="money">💸</span>
           <h5 class="card-title" id="advertisingtitle" style=" z-index: 10;"> </h5>
           <p class="card-text" id="advertisingtexte" style="z-index: 10;"> </p>
           <p class="card-text" id="advertisingpoint" style="z-index: 10;"> </p>
@@ -101,8 +163,8 @@
 
             getAdvertising();
 
-            function fallingMoney(){
-              if (data.releve[data.releve.length - 1].advertising <10) {
+            function fallingMoney() {
+              if (data.releve[data.releve.length - 1].advertising < 10) {
                 //make money disappear
                 let money = document.getElementsByClassName("money");
                 for (let i = 0; i < money.length; i++) {
@@ -120,7 +182,7 @@
                 let y = Math.floor(Math.random() * height);
                 money[i].style.position = "absolute";
                 money[i].style.left = x + "px";
-                money[i].style.top = y +decalage+ "px";
+                money[i].style.top = y + decalage + "px";
                 money[i].style.zIndex = -1;
 
               }
@@ -137,66 +199,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
-    <script>
 
-
-      let DataTab = [];
-      let label = []
-      for (let i = 0; i < data.releve.length; i++) {
-        let temp = data.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
-        DataTab.push({ x: data.releve[i].rnumber, y: temp });
-        label.push(data.releve[i].rnumber);
-      }
-
-      let ctx = document.getElementById('point-diagram').getContext('2d');
-      let chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          datasets: [{
-            label: 'Point',
-            backgroundColor: 'rgb(255, 99, 132)',
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1,
-            data: DataTab,
-          }],
-          labels: label
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-        }
-      });
-
-      console.log(DataTab);
-
-      //fetch data from server
-      function getData() {
-        $.ajax({
-          url: "http://localhost:1234/data/data.js",
-          type: "GET",
-          success: function (data) {
-            console.log(data);
-          },
-          error: function (error) {
-            console.log(error);
-          }
-        });
-        if (data.releve.length > DataTab.length) {
-          for (let i = DataTab.length; i < data.releve.length; i++) {
-            let temp = data.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
-            DataTab.push({ x: data.releve[i].rnumber, y: temp });
-            label.push(data.releve[i].rnumber);
-          }
-          chart.update();
-          getProcessus();
-          getAdvertising();
-        }
-      }
-
-      setInterval(getData, 200);
-
-    </script>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"

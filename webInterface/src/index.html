@@ -41,22 +41,29 @@
     </div>
     <div class="row">
       <div class="card" style="width: 18rem; margin: 10px;">
+        <h5 class="card-header">
+          Vous avez dit deamon ? 😈
+        </h5>
         <div class="card-body" id="processus">
           <h5 class="card-title" id="processustitle"></h5>
           <p class="card-text" id="processustexte"> </p>
+          <p class="card-text" id="processuspoint"> </p>
           <script>
             function getProcessus() {
               let cardTitle = document.getElementById("processustitle");
               let cardText = document.getElementById("processustexte");
+              let cardPoint = document.getElementById("processuspoint");
               if (data.releve[data.releve.length - 1].processus > 0) {
-                cardTitle.innerHTML = data.releve[data.releve.length - 1].processus == 1 ? "Un processus malvaillant est toujours actif" : "plusieur processus malvaillant sont toujours actif";
-                cardText.innerHTML = "Au moins un prossecus remet en cause la securité de votre systeme";
+                cardTitle.innerHTML = data.releve[data.releve.length - 1].processus == 1 ? "Un processus malvaillant est toujours actif 😨" : "plusieur processus malvaillant sont toujours actif 😱";
+                cardText.innerHTML = "Au moins un prossecus remet en cause la securité de votre systeme ";
+                cardPoint.innerHTML = "vous perdez " + data.releve[data.releve.length - 1].processus*40 + " points par minute";
 
                 cardTitle.style.color = "red";
               } else {
 
-                cardTitle.innerHTML = "bravo plus de processus malvaillant";
+                cardTitle.innerHTML = "bravo plus de processus malvaillant ✅";
                 cardText.innerHTML += "aucun processus malvaillant n'est inactif vous avez reussi a dejouer cette attaque";
+                cardPoint.innerHTML = "vous ne perdez pas de point";
                 cardTitle.style.color = "green";
               }
             }
@@ -66,22 +73,28 @@
 
       </div>
       <div class="card" style="width: 18rem; margin: 10px;">
+        <h5 class="card-header">
+          Vous avez dit site web ? 🌐
+        </h5>
         <div class="card-body" id="advertising">
-          <h5 class="card-title" id="advertisingtitle"></h5>
+          <h5 class="card-title" id="advertisingtitle"> </h5>
           <p class="card-text" id="advertisingtexte"> </p>
+          <p class="card-text" id="advertisingpoint"> </p>
           <script>
             function getAdvertising() {
               let cardTitle = document.getElementById("advertisingtitle");
               let cardText = document.getElementById("advertisingtexte");
+              let cardPoint = document.getElementById("advertisingpoint");
               if (data.releve[data.releve.length - 1].advertising < 10) {
                 cardTitle.innerHTML = "erreur avec Maki.fr";
                 cardText.innerHTML = data.releve[data.releve.length - 1].advertising == 5 ? "Maki.fr ne génère aucun revenu" : "Maki.fr n'est pas accessible";
                 cardTitle.style.color = "red";
               } else {
-                cardTitle.innerHTML = "Maki.fr est accessible";
-                cardText.innerHTML = "Maki.fr est accessible et génère des revenus";
+                cardTitle.innerHTML = "Maki.fr est accessible 🍣";
+                cardText.innerHTML = "Maki.fr est accessible et génère des revenus 🤑";
                 cardTitle.style.color = "green";
               }
+              cardPoint.innerHTML = data.releve[data.releve.length - 1].advertising==0?"votre site est hors ligne vous ne gagnez pas de point":"vous gagnez " + data.releve[data.releve.length - 1].advertising + " points par minute";
             }
             getAdvertising();
           </script>

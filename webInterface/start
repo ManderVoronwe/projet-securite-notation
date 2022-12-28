@@ -24,3 +24,9 @@ fi
 
 
 
+
+# Start the web interface
+cd webInterface
+npx parcel src/index.html &
+
+

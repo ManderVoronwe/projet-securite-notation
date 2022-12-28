@@ -10,13 +10,16 @@ RUN mdkir /app
 WORKDIR /app
 COPY . .
 
-ARG SERVER_TO_CHECK_IP=0.0.0.0
+ARG SERVER_IP=0.0.0.0
 
 # Go in the app folder
 WORKDIR /app/webInterface
 RUN npm install
+# RUN npm install chart.js
+# RUN npm install --save-dev parcel
 
-EXPOSE 8080
 
-CMD ["./start", "$SERVER_TO_CHECK_IP"]
+EXPOSE 1234
+
+CMD ["./start", "$SERVER_IP"]
 

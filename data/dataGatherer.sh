@@ -20,7 +20,7 @@ NUMBER = 0
 
 read_config $CONF_FILE
 
-cat << EOF > ../webinterface/src/data/data.json
+cat << EOF > ../webinterface/src/data/data.js
 const  DataJson ={"releve":[
 
 ]};

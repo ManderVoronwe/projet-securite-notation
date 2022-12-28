@@ -1,0 +1,26 @@
+#!/bin/bash
+
+SERVER_TO_CHECK_IP=$1
+
+# Check if the IP of the server to check is provided and different from 127.0.0.1
+if [ -z "$SERVER_TO_CHECK_IP" ] || [ "$SERVER_TO_CHECK_IP" == "127.00.1" ]; then
+    echo "Please provide the IP of the server to check"
+    exit 1
+fi
+
+# Check if the server is up
+ping -c 1 $SERVER_TO_CHECK_IP > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "Server is down"
+    exit 1
+fi
+
+# Check if the server is responding to HTTP requests
+curl -s -o /dev/null -w "%{http_code}" http://$SERVER_TO_CHECK_IP:8080 > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "Server is not responding to HTTP requests"
+    exit 1
+fi
+
+
+

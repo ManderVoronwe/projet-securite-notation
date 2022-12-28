@@ -1,4 +1,4 @@
-const data ={releve :[
+const  DataJson ={"releve" :[
     {
         "rnumber": 1 ,
         "processus": 4 ,

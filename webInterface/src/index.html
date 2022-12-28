@@ -15,16 +15,36 @@
 </head>
 
 <body>
+  <script src="./data/data.js"></script>
+
+  <div class="row text-center" style="max-width: 100%;">
+    <div class="col" style="padding: 0">
+      <h1>notation du defi MAKI.FR</h1>
+    </div>
+  </div>
+  <div class="container" style="background-color: #c8c7c7; min-width: 100%; padding-top: 10px ; padding-bottom: 10px; ">
+    <div class="row text-center">
+      <div class="col">
+        <h2>Evolution des points</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <canvas id="point-diagram" style="max-height: 80vh; min-height: 400px;"></canvas>
+      </div>
+    </div>
+  </div>
+
   <script>
-
-
     let DataTab = [];
-    let label = []
-    for (let i = 0; i < data.releve.length; i++) {
-      let temp = data.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
-      DataTab.push({ x: data.releve[i].rnumber, y: temp });
-      label.push(data.releve[i].rnumber);
+    let label = [];
+    for (let i = 0; i < DataJson.releve.length; i++) {
+      let temp = DataJson.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
+      DataTab.push({ x: DataJson.releve[i].rnumber, y: temp });
+      label.push(DataJson.releve[i].rnumber);
     }
+
+
 
     let ctx = document.getElementById('point-diagram').getContext('2d');
     let chart = new Chart(ctx, {
@@ -46,53 +66,10 @@
       }
     });
 
-    console.log(DataTab);
 
-    //fetch data from server
-    function getData() {
-      $.ajax({
-        url: "http://localhost:1234/data/data.js",
-        type: "GET",
-        success: function (data) {
-          console.log(data);
-        },
-        error: function (error) {
-          console.log(error);
-        }
-      });
-      DataTab = [];
-      label = [];
-      for (let i = 0; i < data.releve.length; i++) {
-        let temp = data.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
-        DataTab.push({ x: data.releve[i].rnumber, y: temp });
-        label.push(data.releve[i].rnumber);
-      }
-      chart.update();
-      getProcessus();
-      getAdvertising();
-    }
-    
 
-    setInterval(getData, 200);
 
   </script>
-  <div class="row text-center" style="max-width: 100%;">
-    <div class="col" style="padding: 0">
-      <h1>notation du defi MAKI.FR</h1>
-    </div>
-  </div>
-  <div class="container" style="background-color: #c8c7c7; min-width: 100%; padding-top: 10px ; padding-bottom: 10px; ">
-    <div class="row text-center">
-      <div class="col">
-        <h2>Evolution des points</h2>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <canvas id="point-diagram" style="max-height: 80vh; min-height: 400px;"></canvas>
-      </div>
-    </div>
-  </div>
 
   <div class="row" style="max-width: 100%; padding-top: 10px ; padding-bottom: 10px; ">
     <div class="row">
@@ -114,10 +91,10 @@
               let cardTitle = document.getElementById("processustitle");
               let cardText = document.getElementById("processustexte");
               let cardPoint = document.getElementById("processuspoint");
-              if (data.releve[data.releve.length - 1].processus > 0) {
-                cardTitle.innerHTML = data.releve[data.releve.length - 1].processus == 1 ? "Un processus malvaillant est toujours actif 😨" : "plusieur processus malvaillant sont toujours actif 😱";
+              if (DataJson.releve[DataJson.releve.length - 1].processus > 0) {
+                cardTitle.innerHTML = DataJson.releve[DataJson.releve.length - 1].processus == 1 ? "Un processus malvaillant est toujours actif 😨" : "plusieur processus malvaillant sont toujours actif 😱";
                 cardText.innerHTML = "Au moins un prossecus remet en cause la securité de votre systeme ";
-                cardPoint.innerHTML = "vous perdez " + data.releve[data.releve.length - 1].processus * 40 + " points par minute";
+                cardPoint.innerHTML = "vous perdez " + DataJson.releve[DataJson.releve.length - 1].processus * 40 + " points par minute";
 
                 cardTitle.style.color = "red";
               } else {
@@ -149,22 +126,22 @@
               let cardTitle = document.getElementById("advertisingtitle");
               let cardText = document.getElementById("advertisingtexte");
               let cardPoint = document.getElementById("advertisingpoint");
-              if (data.releve[data.releve.length - 1].advertising < 10) {
+              if (DataJson.releve[DataJson.releve.length - 1].advertising < 10) {
                 cardTitle.innerHTML = "erreur avec Maki.fr";
-                cardText.innerHTML = data.releve[data.releve.length - 1].advertising == 5 ? "Maki.fr ne génère aucun revenu" : "Maki.fr n'est pas accessible";
+                cardText.innerHTML = DataJson.releve[DataJson.releve.length - 1].advertising == 5 ? "Maki.fr ne génère aucun revenu" : "Maki.fr n'est pas accessible";
                 cardTitle.style.color = "red";
               } else {
                 cardTitle.innerHTML = "Maki.fr est accessible 🍣";
                 cardText.innerHTML = "Maki.fr est accessible et génère des revenus 🤑";
                 cardTitle.style.color = "green";
               }
-              cardPoint.innerHTML = data.releve[data.releve.length - 1].advertising == 0 ? "votre site est hors ligne vous ne gagnez pas de point" : "vous gagnez " + data.releve[data.releve.length - 1].advertising + " points par minute";
+              cardPoint.innerHTML = DataJson.releve[DataJson.releve.length - 1].advertising == 0 ? "votre site est hors ligne vous ne gagnez pas de point" : "vous gagnez " + DataJson.releve[DataJson.releve.length - 1].advertising + " points par minute";
             }
 
             getAdvertising();
 
             function fallingMoney() {
-              if (data.releve[data.releve.length - 1].advertising < 10) {
+              if (DataJson.releve[DataJson.releve.length - 1].advertising < 10) {
                 //make money disappear
                 let money = document.getElementsByClassName("money");
                 for (let i = 0; i < money.length; i++) {
@@ -208,4 +185,10 @@
 
 </body>
 
+<script>
+  //refresh every 10 seconds
+  setTimeout(() => {
+  document.location.reload();
+}, 10000);
+</script>
 </html>

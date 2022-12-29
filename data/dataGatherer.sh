@@ -30,15 +30,17 @@ for i in {1..120}
 do
     DATA_PROCESSUS=$(../checkProcessus/ProcessusGeter.sh $SERVER $CERTIFICATE $PROCESSUS)
     DATA_ADVERTISING=$(../Advertising/checkAdvertisment.sh $URL)
+    DATA_ACCESS_TO_DATABASE = $(../dataAccessCheker/dataAccessCheker.py)
     #replace the last line of the file
     sed -i '$ d' ../webinterface/data/data.js
     #add the new data
-    POINT = $DATA_PROCESSUS + $DATA_ADVERTISING
+    POINT = $DATA_PROCESSUS + $DATA_ADVERTISING + $DATA_ACCESS_TO_DATABASE
     DATA = ",
         {
         \"rnumber\": $NUMBER,
         \"processus\": $DATA_PROCESSUS,
         \"advertising\": $DATA_ADVERTISING,
+        \"DBaccess\": $DATA_ACCESS_TO_DATABASE,
         \"point\": $POINT
         }
     ]};"

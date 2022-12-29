@@ -94,7 +94,7 @@
               if (DataJson.releve[DataJson.releve.length - 1].processus > 0) {
                 cardTitle.innerHTML = DataJson.releve[DataJson.releve.length - 1].processus == 1 ? "Un processus malvaillant est toujours actif 😨" : "plusieur processus malvaillant sont toujours actif 😱";
                 cardText.innerHTML = "Au moins un prossecus remet en cause la securité de votre systeme ";
-                cardPoint.innerHTML = "vous perdez " + DataJson.releve[DataJson.releve.length - 1].processus * 40 + " points par minute";
+                cardPoint.innerHTML = "vous perdez " + DataJson.releve[DataJson.releve.length - 1].processus + " points par minute";
 
                 cardTitle.style.color = "red";
               } else {
@@ -111,7 +111,7 @@
 
       </div>
       <div class="card" style="width: 18rem; margin: 10px;background-color: transparent;">
-        <h5 class="card-header" id="advertisingtitle">
+        <h5 class="card-header">
           Vous avez dit site web ? 🌐
         </h5>
         <div class="card-body" id="advertising">
@@ -166,6 +166,35 @@
             }
             setInterval(fallingMoney, 200);
 
+          </script>
+        </div>
+      </div>
+      <div class="card" style="width: 18rem; margin: 10px;background-color: transparent;">
+        <h5 class="card-header">
+          Le libre acces au savoir... 📚 Cest simpa !
+        </h5>
+        <div class="card-body">
+          <h5 class="card-title" id="DBaccestitle" style=" z-index: 10;"> </h5>
+          <p class="card-text" id="DBaccestexte" style="z-index: 10;"> </p>
+          <p class="card-text" id="DBaccespoint" style="z-index: 10;"> </p>
+          <script>
+            function getDBacces() {
+              let cardTitle = document.getElementById("DBaccestitle");
+              let cardText = document.getElementById("DBaccestexte");
+              let cardPoint = document.getElementById("DBaccespoint");
+              if (DataJson.releve[DataJson.releve.length - 1].DBaccess > 0) {
+                cardTitle.innerHTML = "Vous partagez vos connaissances 📚";
+                cardText.innerHTML = "votre base de donnée est accessible depuis l'exterieur.";
+                cardTitle.style.color = "red";
+              } else {
+                cardTitle.innerHTML = "la base de donnée est sécurisée pour les agent exterieur 🔒";
+                cardText.innerHTML = "votre base de donnée est coupée de l'exterieur.";
+                cardTitle.style.color = "green";
+              }
+              cardPoint.innerHTML = DataJson.releve[DataJson.releve.length - 1].DBaccess == 0 ? "vous ne perdez pas de point" : "vous perdez" +DataJson.releve[DataJson.releve.length - 1].DBaccess + "points par minute";
+            }
+
+            getDBacces();
           </script>
         </div>
       </div>

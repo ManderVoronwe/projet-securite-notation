@@ -1,0 +1,41 @@
+#!/bin/bash
+
+IP=$ENV_SERVER_IP
+
+echo "Attente de 20s pour le lancement complet du docker ($IP)"
+sleep 20
+
+
+# Check if the IP of the server to check is provided and different from 127.0.0.1
+if [ -z "$IP" ] || [ "$IP" == "127.0.0.1" ]; then
+    echo "Please provide the IP of the server to check"
+else
+    echo "IP $IP OK"
+fi
+
+# Check if the server is up
+ping -c 1 $IP > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "Server is down"
+else
+   echo "$IP up"
+fi
+
+# Check if the server is responding to HTTP requests
+curl -s -o /dev/null -w "%{http_code}" http://$IP:80 > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "Server is not responding to HTTP requests"
+else
+   echo "http://$IP:80 OK"
+fi
+
+# Check if the docker server is responding to HTTP requests
+curl -s -o /dev/null -w "%{http_code}" http://$IP:8080 > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "Docker server is not responding to HTTP requests"
+else
+    echo "Docker OK"
+fi
+
+
+/app/data/dataGatherer.sh $IP

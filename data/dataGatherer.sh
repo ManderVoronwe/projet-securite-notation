@@ -25,7 +25,7 @@ read_config $CONF_FILE
 
 echo "Génération du fichier vide"
 cat << EOF > /app/webInterface/src/data/data.js
-const DataJson = {releve:[
+const DataJson = {"releve":[
 
 
 ]};

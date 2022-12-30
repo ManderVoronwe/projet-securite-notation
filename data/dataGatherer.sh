@@ -24,7 +24,7 @@ read_config $CONF_FILE
 
 echo "Génération du fichier vide"
 cat << EOF > /app/webInterface/src/data/data.js
-const data = {releve:[
+const DataJson = {releve:[
 
 ]};
 EOF
@@ -35,10 +35,12 @@ do
     echo "Releve $i"
     DATA_PROCESSUS=$(/app/checkProcessus/ProcessusGeter.sh $SERVER)
     # DATA_ADVERTISING=$(/app/Advertising/checkAdvertisment.sh $URL)
+    # DATA_ACCESS_TO_DATABASE = $(../dataAccessCheker/dataAccessCheker.py)
     DATA_ADVERTISING=60
     DATA_PROCESSUS=40
+    DATA_ACCESS_TO_DATABASE=20
     sed -i '$ d' /app/webInterface/src/data/data.js
-    POINT=$(($DATA_PROCESSUS+$DATA_ADVERTISING))
+    POINT=$(($DATA_PROCESSUS+$DATA_ADVERTISING+$DATA_ACCESS_TO_DATABASE))
 
     echo "Ajout des Point: $POINT"
     DATA="{ \

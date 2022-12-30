@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Lancement de la notation sur le serveur $ENV_SERVER_IP"
+/app/datascript&
+
+echo "Lancement du serveur web"
+cd /app/webInterface
+npx parcel src/index.html

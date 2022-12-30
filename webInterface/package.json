@@ -1,7 +1,6 @@
 {
     "name": "notation",
     "version": "1.0.0",
-    "license": "MIT",
     "scripts": {
         "dev": "parcel src/index.php",
         "build": "parcel build src/index.php"

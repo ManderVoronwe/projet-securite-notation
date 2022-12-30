@@ -22,9 +22,11 @@ NUMBER=0
 echo "Lecture du fichier de configuration"
 read_config $CONF_FILE
 
+
 echo "Génération du fichier vide"
 cat << EOF > /app/webInterface/src/data/data.js
 const DataJson = {releve:[
+
 
 ]};
 EOF
@@ -32,6 +34,7 @@ EOF
 echo "Lancement de la boucle de collecte de données"
 for i in {1..200}
 do
+ 
     echo "Releve $i"
     DATA_PROCESSUS=$(/app/checkProcessus/ProcessusGeter.sh $SERVER)
     # DATA_ADVERTISING=$(/app/Advertising/checkAdvertisment.sh $URL)
@@ -50,7 +53,7 @@ do
         \"DBaccess\": $DATA_ACCESS_TO_DATABASE, \
         \"point\": $POINT \
         },"
-    
+
     echo $DATA >> /app/webInterface/src/data/data.js
     echo "]};" >> /app/webInterface/src/data/data.js
 

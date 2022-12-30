@@ -33,7 +33,7 @@ echo "Lancement de la boucle de collecte de données"
 for i in {1..200}
 do
     echo "Releve $i"
-    # DATA_PROCESSUS=$(/app/checkProcessus/ProcessusGeter.sh $SERVER $CERTIFICATE $PROCESSUS)
+    DATA_PROCESSUS=$(/app/checkProcessus/ProcessusGeter.sh $SERVER)
     # DATA_ADVERTISING=$(/app/Advertising/checkAdvertisment.sh $URL)
     DATA_ADVERTISING=60
     DATA_PROCESSUS=40
@@ -52,7 +52,7 @@ do
     echo "]};" >> /app/webInterface/src/data/data.js
 
     NUMBER=$((NUMBER+1))
-    
+
     echo "Attente de 60s"
     sleep 60
 done

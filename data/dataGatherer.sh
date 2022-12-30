@@ -47,6 +47,7 @@ do
         \"rnumber\": $NUMBER, \
         \"processus\": $DATA_PROCESSUS, \
         \"advertising\": $DATA_ADVERTISING, \
+        \"DBaccess\": $DATA_ACCESS_TO_DATABASE, \
         \"point\": $POINT \
         },"
     

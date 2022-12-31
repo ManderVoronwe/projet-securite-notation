@@ -33,38 +33,120 @@
         <canvas id="point-diagram" style="max-height: 80vh; min-height: 400px;"></canvas>
       </div>
     </div>
+    <div class="row">
+      <div class="col-6" >
+        <canvas id="taux-diagram" style="max-height: 80vh; min-height: 400px;"></canvas>
+      </div>
+      <div class="col-6">
+        <canvas id="supp-diagram" style="max-height: 80vh; min-height: 400px;"></canvas>
+      </div>
+    </div>
+    
   </div>
 
   <script>
-    let DataTab = [];
+    let TableauDesPoints = [];
+    let TableauDesTaux = [];
+    let TableauCountSupp = [];
     let label = [];
+    let pointColor = 'rgb(75, 192, 192)';
+
     for (let i = 0; i < DataJson.releve.length; i++) {
-      let temp = DataJson.releve[i].point + (i == 0 ? 0 : DataTab[i - 1].y);
-      DataTab.push({ x: DataJson.releve[i].rnumber, y: temp });
+      let temp = DataJson.releve[i].point + (i == 0 ? 0 : TableauDesPoints[i - 1].y);
+      pointColor =  DataJson.releve[i].point > 0 ? 'rgb(75, 200, 90)' : 'rgb(255, 99, 132)';
+      TableauDesPoints.push({ x: DataJson.releve[i].rnumber, y: temp });
+      TableauDesTaux.push({ x: DataJson.releve[i].rnumber, y: DataJson.releve[i].TauxDeFauxComm });
+      TableauCountSupp.push({ x: DataJson.releve[i].rnumber, y: DataJson.releve[i].NombreDeVraisCommDel});
       label.push(DataJson.releve[i].rnumber);
     }
 
 
-
-    let ctx = document.getElementById('point-diagram').getContext('2d');
-    let chart = new Chart(ctx, {
+    let ScoreDiagram = document.getElementById('point-diagram').getContext('2d');
+    let chart = new Chart(ScoreDiagram, {
       type: 'line',
       data: {
         datasets: [{
           label: 'Point',
           backgroundColor: 'rgb(255, 99, 132)',
           fill: false,
-          borderColor: 'rgb(75, 192, 192)',
+          borderColor: pointColor,
           tension: 0.1,
-          data: DataTab,
+          data: TableauDesPoints,
         }],
         labels: label
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+            }
+          }]
+        }
+      }
+      
+    });
+
+    let TauxDiagram = document.getElementById('taux-diagram').getContext('2d');
+    let chart2 = new Chart(TauxDiagram, {
+      type: 'line',
+      data: {
+        datasets: [{
+          label: 'Taux de faux comm',
+          backgroundColor: 'rgb(255, 99, 132)',
+          fill: true,
+          borderColor: 'red',
+          tension: 0.1,
+          data: TableauDesTaux,
+          
+        }],
+        labels: label
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              max: 1,
+              min: 0
+            }
+          }]
+        }
       }
     });
+
+    let SuppDiagram = document.getElementById('supp-diagram').getContext('2d');
+    let chart3 = new Chart(SuppDiagram, {
+      type: 'line',
+      data: {
+        datasets: [{
+          label: 'Nombre de vrai comm del',
+          backgroundColor: 'rgb(255, 99, 132)',
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1,
+          data: TableauCountSupp,
+        }],
+        labels: label
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+            }
+          }]
+        }
+      }
+    });
+
+
 
 
 

@@ -43,6 +43,8 @@ do
     DATA_PROCESSUS=40
     DATA_ACCESS_TO_DATABASE=20
     sed -i '$ d' /app/webInterface/src/data/data.js
+    TAUX_DE_FAUX_COMM 
+    NOMBRE_DE_VRAIS_COMM_DEL
     POINT=$(($DATA_PROCESSUS+$DATA_ADVERTISING+$DATA_ACCESS_TO_DATABASE))
 
     echo "Ajout des Point: $POINT"
@@ -51,6 +53,8 @@ do
         \"processus\": $DATA_PROCESSUS, \
         \"advertising\": $DATA_ADVERTISING, \
         \"DBaccess\": $DATA_ACCESS_TO_DATABASE, \
+        \"NombreDeVraisCommDel\": $NOMBRE_DE_VRAIS_COMM_DEL, \
+        \"TauxDeFauxComm\": $TAUX_DE_FAUX_COMM, \
         \"point\": $POINT \
         },"
 

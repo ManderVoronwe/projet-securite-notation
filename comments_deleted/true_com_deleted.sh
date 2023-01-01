@@ -9,7 +9,7 @@ a=0
 
 FILE_ID="./ids.txt"
 #NUMBER_TRUE=$(cat ids.txt | wc -l)
-ARRAY_WRONG_COMMENT=("C`est un mauvais restaurant","Ce restaurant est très mauvais, je ne reviendrai plus","Un restaurant horrible","Repas vraiment décevant","Je ne recommande pas ce restaurant","Je ne reviendrai plus jamais ici","Un restaurant très très positif","Ce restaurant est incroyable,je n`ai jamais rien mangé d`aussi délicieux","C`est le meilleur restaurant que je connaisse","un vrai délice","un restaurant de qualité","un restaurant de qualité exceptionnelle")
+ARRAY_WRONG_COMMENT=("C'est un mauvais restaurant","Ce restaurant est très mauvais, je ne reviendrai plus","Un restaurant horrible","Repas vraiment décevant","Je ne recommande pas ce restaurant","Je ne reviendrai plus jamais ici","Un restaurant très très positif","Ce restaurant est incroyable,je n'ai jamais rien mangé d`aussi délicieux","C'est le meilleur restaurant que je connaisse","un vrai délice","un restaurant de qualité","un restaurant de qualité exceptionnelle")
 ACTUAL_TRUE=0
 
 function check_in(){

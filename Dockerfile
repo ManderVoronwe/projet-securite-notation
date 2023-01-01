@@ -1,7 +1,7 @@
 FROM node:18-bullseye
 
 RUN apt update && apt upgrade -y
-RUN apt install curl openssh-client iputils-ping telnet python3 python3-pip -y
+RUN apt install curl openssh-client iputils-ping sshpass telnet python3 python3-pip -y
 RUN pip3 install mysql-connector-python
 
 
@@ -13,7 +13,7 @@ COPY . .
 
 #ARG SERVER_IP=0.0.0.0
 ENV ENV_SERVER_IP=0.0.0.0
-
+ENV ENV_GROUPE=G1
 
 # Go in the app folder
 WORKDIR /app/webInterface

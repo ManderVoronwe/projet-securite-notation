@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Lancement de la notation sur le serveur $ENV_SERVER_IP"
+echo "Lancement de la notation sur le serveur $ENV_SERVER_IP $ENV_GROUPE"
 /app/datascript&
 
 echo "Lancement du serveur web"

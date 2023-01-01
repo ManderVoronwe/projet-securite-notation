@@ -2,6 +2,7 @@
 #read data from a file data
 CONF_FILE="data.cfg"
 IP_SERVER=$1
+GROUPE=$2
 
 function read_config()
 {
@@ -36,23 +37,26 @@ for i in {1..200}
 do
  
     echo "Releve $i"
-    DATA_PROCESSUS=$(/app/checkProcessus/ProcessusGeter.sh $SERVER)
-    # DATA_ADVERTISING=$(/app/Advertising/checkAdvertisment.sh $URL)
+    DATA_PROCESSUS=$(/app/checkProcessus/ProcessusGeter.sh $IP_SERVER)
+    DATA_ADVERTISING=$(/app/Advertising/checkAdvertisment.sh $URL)
+    DATA_DB_CONNECTED=$(/app/dataAccessCheker/DBaccountcheck.sh $IP_SERVER)
+    DATA_DB_ONLINE=$(/app/dataAccessCheker/DBonline.sh $IP_SERVER $GROUPE)
+    DATA_SSH_CONNECTED=$(/app/checkSSH/SSHconnection.sh $IP_SERVER $GROUPE)
+    DATA_REVERSE_SHELL=$(/app/checkRerverseShell/checkReverse.sh $IP_SERVER)
     # DATA_ACCESS_TO_DATABASE = $(../dataAccessCheker/dataAccessCheker.py)
-    DATA_ADVERTISING=60
-    DATA_PROCESSUS=40
-    DATA_ACCESS_TO_DATABASE=20
+    TMP_NOMBRE_DE_VRAIS_COMM_DEL=$(/app/Comments/TrueComDeleted.sh $IP_SERVER)
+    NOMBRE_DE_VRAIS_COMM_DEL=$(echo $TMP_NOMBRE_DE_VRAIS_COMM_DEL | cut -d " " -f1)
+    NB_COM_LEGIT=$(echo $TMP_NOMBRE_DE_VRAIS_COMM_DEL | cut -d " " -f2)
+    TAUX_DE_FAUX_COMM=$(/app/Comments/TauxFauxCom.sh $IP_SERVER $NB_COM_LEGIT)
+    POINT=$(($DATA_PROCESSUS+$DATA_ADVERTISING+$DATA_DB_CONNECTED))
     sed -i '$ d' /app/webInterface/src/data/data.js
-    TAUX_DE_FAUX_COMM 
-    NOMBRE_DE_VRAIS_COMM_DEL
-    POINT=$(($DATA_PROCESSUS+$DATA_ADVERTISING+$DATA_ACCESS_TO_DATABASE))
 
     echo "Ajout des Point: $POINT"
     DATA="{ \
         \"rnumber\": $NUMBER, \
         \"processus\": $DATA_PROCESSUS, \
         \"advertising\": $DATA_ADVERTISING, \
-        \"DBaccess\": $DATA_ACCESS_TO_DATABASE, \
+        \"DBaccess\": $DATA_DB_CONNECTED, \
         \"NombreDeVraisCommDel\": $NOMBRE_DE_VRAIS_COMM_DEL, \
         \"TauxDeFauxComm\": $TAUX_DE_FAUX_COMM, \
         \"point\": $POINT \

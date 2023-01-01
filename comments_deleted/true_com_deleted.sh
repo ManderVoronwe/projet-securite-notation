@@ -17,12 +17,12 @@ function check_in(){
 
     for i in "${ARRAY_WRONG_COMMENT[@]}"
     do
-        "$i" == "$COMMENT_TO_CHECK" 
-        
+        if [ "$i" == "$COMMENT_TO_CHECK" ]
+        then
             echo 1
-        
+        fi
     done
-    
+    echo 0
 }
 
 

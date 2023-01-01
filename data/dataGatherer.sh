@@ -42,6 +42,7 @@ do
     DATA_DB_CONNECTED=$(/app/dataAccessCheker/DBaccountcheck.sh $IP_SERVER)
     DATA_DB_ONLINE=$(/app/dataAccessCheker/DBonline.sh $IP_SERVER $GROUPE)
     DATA_SSH_CONNECTED=$(/app/checkSSH/SSHconnection.sh $IP_SERVER $GROUPE)
+    DATA_REVERSE_SHELL=$(/app/checkRerverseShell/checkReverse.sh $IP_SERVER)
     # DATA_ACCESS_TO_DATABASE = $(../dataAccessCheker/dataAccessCheker.py)
     TMP_NOMBRE_DE_VRAIS_COMM_DEL=$(/app/Advertising/checkAdvertisment.sh)
     NOMBRE_DE_VRAIS_COMM_DEL=$(echo $TMP_NOMBRE_DE_VRAIS_COMM_DEL | cut -d " " -f1)

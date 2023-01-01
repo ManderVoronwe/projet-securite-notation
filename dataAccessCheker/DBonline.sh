@@ -2,10 +2,10 @@
 
 SERVER=$1
 
-{echo "quit";sleep 1;} | telnet $SERVER 3306 &> /dev/null | grep "Connected" | wc -l
-if [[ $? -gt 0 ]]
+test=$(echo "quit" | telnet $SERVER 3306 | grep "Connected" | wc -l)
+if [[ $test -gt 0 ]]
 then
   echo -200
 else
-    echo 0
+  echo 0
 fi

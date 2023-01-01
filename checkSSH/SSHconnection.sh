@@ -8,8 +8,8 @@ while read line
 do
     username=$(echo $line | cut -d " " -f2)
     password=$(echo $line | cut -d " " -f3)
-    sshpass -p $password  ssh -q $username@$SERVER exit
-    if [[ $? -eq 0 ]]
+    test=$(sshpass -p $password  ssh -q $username@$SERVER exit)
+    if [[ $test -eq 0 ]]
     then
         total_connected=$(($total_connected+1))
     fi

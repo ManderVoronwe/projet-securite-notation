@@ -2,14 +2,15 @@
 
 SERVER=$1
 GRP=$2
+CERTIFICATE="/app/cert/sshdocker"
 total_connected=0
 
 while read line
 do
     username=$(echo $line | cut -d " " -f2)
     password=$(echo $line | cut -d " " -f3)
-    ssh root@$SERVER "mysql -h127.0.0.1 -u$username -p$password -e \"USE maki2;\"" >> /dev/null
-    if [[ $? -eq 0 ]]
+    test=$(ssh -i $CERTIFICATE root@$SERVER "mysql -h127.0.0.1 -u$username -p$password -e \"USE maki2;\"")
+    if [[ $test -eq 0 ]]
     then
         total_connected=$(($total_connected+1))
     fi

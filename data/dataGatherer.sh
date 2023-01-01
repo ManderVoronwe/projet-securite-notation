@@ -36,16 +36,19 @@ for i in {1..200}
 do
  
     echo "Releve $i"
-    DATA_PROCESSUS=$(/app/checkProcessus/ProcessusGeter.sh $SERVER)
-    # DATA_ADVERTISING=$(/app/Advertising/checkAdvertisment.sh $URL)
+    DATA_PROCESSUS=$(/app/checkProcessus/ProcessusGeter.sh $IP_SERVER)
+    DATA_ADVERTISING=$(/app/Advertising/checkAdvertisment.sh $URL)
     # DATA_ACCESS_TO_DATABASE = $(../dataAccessCheker/dataAccessCheker.py)
-    DATA_ADVERTISING=60
-    DATA_PROCESSUS=40
-    DATA_ACCESS_TO_DATABASE=20
-    sed -i '$ d' /app/webInterface/src/data/data.js
-    TAUX_DE_FAUX_COMM 
-    NOMBRE_DE_VRAIS_COMM_DEL
+    TMP_NOMBRE_DE_VRAIS_COMM_DEL=$(/app/Advertising/checkAdvertisment.sh)
+    NOMBRE_DE_VRAIS_COMM_DEL=$(echo $TMP_NOMBRE_DE_VRAIS_COMM_DEL | cut -d " " -f1)
+    NB_COM_LEGIT=$(echo $TMP_NOMBRE_DE_VRAIS_COMM_DEL | cut -d " " -f2)
+    TAUX_DE_FAUX_COMM=$(/app/../tauxdeFauxCom.sh $IP_SERVER $NB_COM_LEGIT)
     POINT=$(($DATA_PROCESSUS+$DATA_ADVERTISING+$DATA_ACCESS_TO_DATABASE))
+    sed -i '$ d' /app/webInterface/src/data/data.js
+    
+    
+
+
 
     echo "Ajout des Point: $POINT"
     DATA="{ \

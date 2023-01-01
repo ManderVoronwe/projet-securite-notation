@@ -54,7 +54,7 @@ do
     
 
 
-done < <(mysql -h $1 -u notation -pnotation -B maki2 -e "SELECT re_id,review FROM review" | sed '1d')
+done < <(mysql -h $1 -unotation -pnotation -B maki2 -e "SELECT re_id,review FROM review" | sed '1d')
 
 
 NUMBER_TOTAL_TRUE=$(cat ids.txt | wc -l)

@@ -55,7 +55,8 @@
       let temp = DataJson.releve[i].point + (i == 0 ? 0 : TableauDesPoints[i - 1].y);
       pointColor =  DataJson.releve[i].point > 0 ? 'rgb(75, 200, 90)' : 'rgb(255, 99, 132)';
       TableauDesPoints.push({ x: DataJson.releve[i].rnumber, y: temp });
-      TableauDesTaux.push({ x: DataJson.releve[i].rnumber, y: DataJson.releve[i].TauxDeFauxComm });
+      let taux = Math.round((DataJson.releve[i].NombreDeFauxCommDel/100));
+      TableauDesTaux.push({ x: DataJson.releve[i].rnumber, y: taux });
       TableauCountSupp.push({ x: DataJson.releve[i].rnumber, y: DataJson.releve[i].NombreDeVraisCommDel});
       label.push(DataJson.releve[i].rnumber);
     }
@@ -145,12 +146,6 @@
         }
       }
     });
-
-
-
-
-
-
   </script>
 
   <div class="row" style="max-width: 100%; padding-top: 10px ; padding-bottom: 10px; ">
@@ -177,10 +172,8 @@
                 cardTitle.innerHTML = DataJson.releve[DataJson.releve.length - 1].processus == 1 ? "Un processus malvaillant est toujours actif 😨" : "plusieur processus malvaillant sont toujours actif 😱";
                 cardText.innerHTML = "Au moins un prossecus remet en cause la securité de votre systeme ";
                 cardPoint.innerHTML = "vous perdez " + DataJson.releve[DataJson.releve.length - 1].processus + " points par minute";
-
                 cardTitle.style.color = "red";
               } else {
-
                 cardTitle.innerHTML = "bravo plus de processus malvaillant ✅";
                 cardText.innerHTML += "aucun processus malvaillant n'est inactif vous avez reussi a dejouer cette attaque";
                 cardPoint.innerHTML = "vous ne perdez pas de point";
@@ -190,7 +183,6 @@
             getProcessus();
           </script>
         </div>
-
       </div>
       <div class="card" style="width: 18rem; margin: 10px;background-color: transparent;">
         <h5 class="card-header">
@@ -243,7 +235,6 @@
                 money[i].style.left = x + "px";
                 money[i].style.top = y + decalage + "px";
                 money[i].style.zIndex = -1;
-
               }
             }
             setInterval(fallingMoney, 200);
@@ -283,13 +274,7 @@
     </div>
 
 
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"></script>

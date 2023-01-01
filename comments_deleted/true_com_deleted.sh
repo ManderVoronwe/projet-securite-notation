@@ -2,7 +2,7 @@
 
 # Fichier des id des true
 SERVER=$1
-DB_name=$2
+
 
 #a ne sert a rien juste pour laisser les commentaires
 a=0
@@ -54,15 +54,12 @@ do
     
 
 
-done < <(mysql -h $1 -u notation -pnotation -B $2 -e "SELECT re_id,review FROM review" | sed '1d')
+done < <(mysql -h $1 -u notation -pnotation -B maki2 -e "SELECT re_id,review FROM review" | sed '1d')
 
 
 NUMBER_TOTAL_TRUE=$(cat ids.txt | wc -l)
 NUMBER_TRUE_COM_DELETED=$($NUMBER_TOTAL_TRUE-$ACTUAL_TRUE))
-if [ $NUMBER_TRUE_COM_DELETED -gt 0 ]
-then
-    echo "$NUMBER_TRUE_COM_DELETED $ACTUAL_TRUE"
-else
-    a=$(($a + 1))
-    # "Il n'y a eu aucun vrai commentaire supprimé"
-fi
+
+
+echo "$NUMBER_TRUE_COM_DELETED $ACTUAL_TRUE"
+

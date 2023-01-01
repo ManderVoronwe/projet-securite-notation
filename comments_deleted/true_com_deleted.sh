@@ -58,7 +58,7 @@ done < <(mysql -h $1 -u notation -pnotation -B maki2 -e "SELECT re_id,review FRO
 
 
 NUMBER_TOTAL_TRUE=$(cat ids.txt | wc -l)
-NUMBER_TRUE_COM_DELETED=$($NUMBER_TOTAL_TRUE-$ACTUAL_TRUE))
+NUMBER_TRUE_COM_DELETED=$(($NUMBER_TOTAL_TRUE-$ACTUAL_TRUE))
 
 
 echo "$NUMBER_TRUE_COM_DELETED $ACTUAL_TRUE"

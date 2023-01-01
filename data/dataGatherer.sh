@@ -44,10 +44,10 @@ do
     DATA_SSH_CONNECTED=$(/app/checkSSH/SSHconnection.sh $IP_SERVER $GROUPE)
     DATA_REVERSE_SHELL=$(/app/checkRerverseShell/checkReverse.sh $IP_SERVER)
     # DATA_ACCESS_TO_DATABASE = $(../dataAccessCheker/dataAccessCheker.py)
-    TMP_NOMBRE_DE_VRAIS_COMM_DEL=$(/app/Advertising/checkAdvertisment.sh)
+    TMP_NOMBRE_DE_VRAIS_COMM_DEL=$(/app/Comments/TrueComDeleted.sh $IP_SERVER)
     NOMBRE_DE_VRAIS_COMM_DEL=$(echo $TMP_NOMBRE_DE_VRAIS_COMM_DEL | cut -d " " -f1)
     NB_COM_LEGIT=$(echo $TMP_NOMBRE_DE_VRAIS_COMM_DEL | cut -d " " -f2)
-    TAUX_DE_FAUX_COMM=$(/app/../tauxdeFauxCom.sh $IP_SERVER $NB_COM_LEGIT)
+    TAUX_DE_FAUX_COMM=$(/app/Comments/TauxFauxCom.sh $IP_SERVER $NB_COM_LEGIT)
     POINT=$(($DATA_PROCESSUS+$DATA_ADVERTISING+$DATA_DB_CONNECTED))
     sed -i '$ d' /app/webInterface/src/data/data.js
 

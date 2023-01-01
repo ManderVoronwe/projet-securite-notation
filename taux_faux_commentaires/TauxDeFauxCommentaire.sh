@@ -1,3 +1,4 @@
+#!/bin/bash
 SERVER=$1
 CERTIFICATE=/app/cert/sshdocker
 NOMBRE_DE_COMMENTAIRE_LEGITIME=$2

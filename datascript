@@ -39,4 +39,4 @@ else
 fi
 
 
-/app/data/dataGatherer.sh $IP $GROUPE
+/app/evaluator/data/dataGatherer.sh $IP $GROUPE

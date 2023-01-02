@@ -69,11 +69,11 @@
       else {
         for (let i = 0; i < DataJson.releve.length; i++) {
           TableauDesPoints[i].y -= DataJson.releve[i].NombreDeVraisCommDel;
-                    
+
         }
       }
     }
-
+    ActualiseTableauDesPoints();
     let ScoreDiagram = document.getElementById('point-diagram').getContext('2d');
     let chart = new Chart(ScoreDiagram, {
       type: 'line',

@@ -12,4 +12,6 @@ then
   else
     echo 20
   fi
+else
+  echo 0
 fi

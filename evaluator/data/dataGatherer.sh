@@ -48,10 +48,10 @@ do
     NOMBRE_DE_VRAIS_COMM_DEL=$(echo $TMP_NOMBRE_DE_VRAIS_COMM_DEL | cut -d " " -f1)
     NB_COM_LEGIT=$(echo $TMP_NOMBRE_DE_VRAIS_COMM_DEL | cut -d " " -f2)
     TAUX_DE_FAUX_COMM=$(/app/evaluator/reviewAnalyst/Comments/TauxFauxCom.sh $IP_SERVER $NB_COM_LEGIT)
-    POINT=$(($DATA_PROCESSUS+$DATA_ADVERTISING+$DATA_DB_CONNECTED))
+    POINT=$(($DATA_PROCESSUS+$DATA_ADVERTISING+$DATA_DB_CONNECTED+$DATA_REVERSE_SHELL))
     sed -i '$ d' /app/webInterface/src/data/data.js
 
-    echo "Ajout des Point: $POINT"
+    echo "Ajout des Point (ne prend pas en compte les bonnus): $POINT"
     DATA="{ \
         \"rnumber\": $NUMBER, \
         \"processus\": $DATA_PROCESSUS, \
@@ -59,6 +59,9 @@ do
         \"DBaccess\": $DATA_DB_CONNECTED, \
         \"NombreDeVraisCommDel\": $NOMBRE_DE_VRAIS_COMM_DEL, \
         \"TauxDeFauxComm\": $TAUX_DE_FAUX_COMM, \
+        \"DBonline\": $DATA_DB_ONLINE, \
+        \"SSHaccess\": $DATA_SSH_CONNECTED, \
+        \"ReverseShell\": $DATA_REVERSE_SHELL, \
         \"point\": $POINT \
         },"
 

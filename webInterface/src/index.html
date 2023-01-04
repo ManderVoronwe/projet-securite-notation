@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
@@ -13,6 +14,9 @@
 </head>
 
 <body>
+  <script>
+    const { Chart } = await import('chart.js');
+  </script>
   <script src="./data/data.js"></script>
 
   <div class="row text-center" style="max-width: 100%;">
@@ -49,15 +53,15 @@
     let label = [];
     let pointColor = 'rgb(75, 192, 192)';
 
-    function PopulateTab(_Data) {
+    function PopulateTab() {
       let Tableau = [];
-      for (let i = 0; i < _Data.releve.length; i++) {
+      for (let i = 0; i < DataJson.releve.length; i++) {
         let taux = Math.round((DataJson.releve[i].NombreDeFauxCommDel / 100));
         TableauDesTaux.push({ x: DataJson.releve[i].rnumber, y: taux });
         TableauCountSupp.push({ x: DataJson.releve[i].rnumber, y: DataJson.releve[i].NombreDeVraisCommDel });
         label.push(DataJson.releve[i].rnumber);
-        let temp = _Data.releve[i].point + (i == 0 ? 0 : Tableau[i - 1].y);
-        Tableau.push({ x: _Data.releve[i].rnumber, y: temp });
+        let temp = DataJson.releve[i].point + (i == 0 ? 0 : Tableau[i - 1].y);
+        Tableau.push({ x: DataJson.releve[i].rnumber, y: temp });
       }
 
       pointColor = DataJson.releve[DataJson.releve.length - 1].point > 0 ? 'rgb(75, 200, 90)' : 'rgb(255, 99, 132)';
@@ -66,16 +70,17 @@
     function ActualiseTableauDesPoints() {
       if (TableauDesPoints.length == 0)
         PopulateTab(DataJson);
-      else {
-        for (let i = 0; i < DataJson.releve.length; i++) {
-          TableauDesPoints[i].y -= DataJson.releve[i].NombreDeVraisCommDel;
+        console.log(TableauDesPoints);
 
-        }
+      for (let i = 0; i < DataJson.releve.length; i++) {
+        TableauDesPoints[i].y -= DataJson.releve[i].NombreDeVraisCommDel;
       }
     }
     ActualiseTableauDesPoints();
+
+
     let ScoreDiagram = document.getElementById('point-diagram').getContext('2d');
-    let chart = new Chart(ScoreDiagram, {
+    const chart1 = new Chart(ScoreDiagram, {
       type: 'line',
       data: {
         datasets: [{
@@ -90,20 +95,14 @@
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true,
-            }
-          }]
-        }
+        maintainAspectRatio: false
+        
       }
 
     });
 
     let TauxDiagram = document.getElementById('taux-diagram').getContext('2d');
-    let chart2 = new Chart(TauxDiagram, {
+    const chart2 = new Chart(TauxDiagram, {
       type: 'line',
       data: {
         datasets: [{
@@ -121,19 +120,18 @@
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          yAxes: [{
-            ticks: {
+          y: [{
               beginAtZero: true,
               max: 1,
               min: 0
-            }
+            
           }]
         }
       }
     });
 
     let SuppDiagram = document.getElementById('supp-diagram').getContext('2d');
-    let chart3 = new Chart(SuppDiagram, {
+    const chart3 = new Chart(SuppDiagram, {
       type: 'line',
       data: {
         datasets: [{
@@ -150,9 +148,9 @@
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          yAxes: [{
+          y: [{
             ticks: {
-              beginAtZero: true,
+              beginAtZero: true
             }
           }]
         }
@@ -267,7 +265,7 @@
               let cardTitle = document.getElementById("DBaccestitle");
               let cardText = document.getElementById("DBaccestexte");
               let cardPoint = document.getElementById("DBaccespoint");
-              if (DataJson.releve[DataJson.releve.length - 1].DBaccess > 0) {
+              if (DataJson.releve[DataJson.releve.length - 1].DBonline < 0) {
                 cardTitle.innerHTML = "Vous partagez vos connaissances 📚";
                 cardText.innerHTML = "votre base de donnée est accessible depuis l'exterieur.";
                 cardTitle.style.color = "red";
@@ -276,7 +274,7 @@
                 cardText.innerHTML = "votre base de donnée est coupée de l'exterieur.";
                 cardTitle.style.color = "green";
               }
-              cardPoint.innerHTML = DataJson.releve[DataJson.releve.length - 1].DBaccess == 0 ? "vous ne perdez pas de point" : "vous perdez" + DataJson.releve[DataJson.releve.length - 1].DBaccess + "points par minute";
+              cardPoint.innerHTML = DataJson.releve[DataJson.releve.length - 1].DBonline == 0 ? "vous ne perdez pas de point" : "vous perdez" + DataJson.releve[DataJson.releve.length - 1].DBonline + "points par minute";
             }
 
             getDBacces();

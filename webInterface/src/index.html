@@ -47,30 +47,29 @@
   </div>
 
   <script>
-    let TableauDesPoints = [];
-    let TableauDesTaux = [];
-    let TableauCountSupp = [];
-    let label = [];
-    let pointColor = 'rgb(75, 192, 192)';
+    var TableauDesPoints = [];
+    var TableauDesTaux = [];
+    var TableauCountSupp = [];
+    var label = [];
+    var pointColor = 'rgb(75, 192, 192)';
 
     function PopulateTab() {
-      let Tableau = [];
       for (let i = 0; i < DataJson.releve.length; i++) {
-        let taux = Math.round((DataJson.releve[i].NombreDeFauxCommDel / 100));
+        let taux = Math.round((DataJson.releve[i].TauxDeFauxComm / 100));
         TableauDesTaux.push({ x: DataJson.releve[i].rnumber, y: taux });
         TableauCountSupp.push({ x: DataJson.releve[i].rnumber, y: DataJson.releve[i].NombreDeVraisCommDel });
         label.push(DataJson.releve[i].rnumber);
-        let temp = DataJson.releve[i].point + (i == 0 ? 0 : Tableau[i - 1].y);
-        Tableau.push({ x: DataJson.releve[i].rnumber, y: temp });
+        let temp = DataJson.releve[i].point + ((i==0)?0:TableauDesPoints[i - 1].y);
+        TableauDesPoints.push({ x: DataJson.releve[i].rnumber, y: temp });
       }
 
       pointColor = DataJson.releve[DataJson.releve.length - 1].point > 0 ? 'rgb(75, 200, 90)' : 'rgb(255, 99, 132)';
     }
 
     function ActualiseTableauDesPoints() {
-      if (TableauDesPoints.length == 0)
-        PopulateTab(DataJson);
-        console.log(TableauDesPoints);
+      if (TableauDesPoints.length == 0) {
+        PopulateTab();
+      }
 
       for (let i = 0; i < DataJson.releve.length; i++) {
         TableauDesPoints[i].y -= DataJson.releve[i].NombreDeVraisCommDel;
@@ -96,7 +95,7 @@
       options: {
         responsive: true,
         maintainAspectRatio: false
-        
+
       }
 
     });
@@ -121,10 +120,10 @@
         maintainAspectRatio: false,
         scales: {
           y: [{
-              beginAtZero: true,
-              max: 1,
-              min: 0
-            
+            beginAtZero: true,
+            max: 1,
+            min: 0
+
           }]
         }
       }
@@ -219,7 +218,7 @@
                 cardText.innerHTML = "Maki.fr est accessible et génère des revenus 🤑";
                 cardTitle.style.color = "green";
               }
-              cardPoint.innerHTML = DataJson.releve[DataJson.releve.length - 1].advertising == 0 ? "votre site est hors ligne vous ne gagnez pas de point" : "vous gagnez " + DataJson.releve[DataJson.releve.length - 1].advertising + " points par minute";
+              cardPoint.innerHTML = DataJson.releve[DataJson.releve.length - 1].advertising == 0 ? "votre site est hors ligne vous ne gagnez pas de point" : "vous gagnez " +(DataJson.releve[DataJson.releve.length - 1].advertising *(-1))+ " points par minute";
             }
 
             getAdvertising();
